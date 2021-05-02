@@ -59,9 +59,11 @@ public class AdminUI {
 		JButton viewLib=new JButton("View Librarian");
 		viewLib.setBounds(70, 90, 160, 40);
 		JButton delLib=new JButton("Delete Librarian");
-		delLib.setBounds(70, 150, 160, 40);
+		delLib.setBounds(70, 210, 160, 40);
+		JButton addStudent=new JButton("Add Student");
+		addStudent.setBounds(70, 150, 160, 40);
 		JButton logout=new JButton("Logout");
-		logout.setBounds(70, 210, 160, 40);
+		logout.setBounds(70, 270, 160, 40);
 		addLib.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				frame.setVisible(false);
@@ -81,6 +83,13 @@ public class AdminUI {
            		delLib();
 		        }  
 		    });
+		addStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+				addStudent();
+			}
+		});
 		logout.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 					frame.setVisible(false);
@@ -89,8 +98,8 @@ public class AdminUI {
 	           		Library.main(st);
 			        }  
 			    });
-		panel.add(logout);panel.add(addLib);panel.add(title);panel.add(viewLib);panel.add(delLib);
-		frame.setSize(300,300);
+		panel.add(logout);panel.add(addLib);panel.add(title);panel.add(viewLib);panel.add(delLib);panel.add(addStudent);
+		frame.setSize(300,400);
 		frame.add(panel);
 		frame.setVisible(true);
 	}
@@ -141,7 +150,7 @@ public class AdminUI {
 				}
 				if(!(user.getText().equals("")||pass.getText().equals("")||email.getText().equals("")||address.getText().equals("")||city.getText().equals("")||contactNum.getText().equals(""))&&success) {
 					librarian.Librarian entry = new librarian.Librarian(user.getText(),pass.getText(),email.getText(),address.getText(),city.getText(),contactNum.getText());
-	           		Admin.add(entry);
+	           		Admin.addLib(entry);
 	           		JOptionPane.showMessageDialog(frame, "Librarian Added Successfully");
 	           		frame.setVisible(false);
 	            	frame.dispose();
@@ -221,5 +230,68 @@ public class AdminUI {
            		AdminUI.adminSection();
 		        }  
 		    });
+	}
+	private static void addStudent() {
+		JFrame frame=new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel panel=new JPanel();
+		panel.setLayout(null);
+		JLabel title=new JLabel("Add Student");
+		title.setBounds(175,0,150,30);
+		JLabel idLbl=new JLabel("Student ID");
+		idLbl.setBounds(60,50,150,30);
+		JTextField id=new JTextField();
+		id.setBounds(150,50,150,30);
+		JLabel nameLbl=new JLabel("Student Name");
+		nameLbl.setBounds(60,100,150,30);
+		JTextField name = new JTextField();
+		name.setBounds(150,100,150,30);
+		JLabel contactLbl=new JLabel("Student Contact");
+		contactLbl.setBounds(60,150,150,30);
+		JTextField contact=new JTextField();
+		contact.setBounds(150,150,150,30);
+		JLabel error = new JLabel("Insert correct information");
+		error.setBounds(300,200,150,30);
+		error.setVisible(false);
+		JButton add = new JButton("Add Student");
+		add.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+				boolean success;
+				try {
+					Integer.parseInt(id.getText());
+					Integer.parseInt(contact.getText());
+					success=true;
+				}
+				catch(Exception e1){
+					success=false;
+				}
+				if(!(name.getText().equals("")||id.getText().equals("")||contact.getText().equals(""))&&success) {
+					application.Student entry = new application.Student(Integer.parseInt(id.getText()),name.getText(),contact.getText());
+	           		Admin.addStudent(entry);
+	           		JOptionPane.showMessageDialog(frame, "Student Added Successfully");
+	           		frame.setVisible(false);
+	            	frame.dispose();
+	           		AdminUI.adminSection();
+				}
+				else {
+					error.setVisible(true);
+					error.setForeground(Color.red);
+				}
+		        }  
+		    });
+		add.setBounds(150,250,130,30);
+		JButton back = new JButton("Back");
+		back.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+				frame.setVisible(false);
+            	frame.dispose();
+           		adminSection();
+		        }  
+		    });
+		back.setBounds(80,300,100,30);
+		panel.add(title);panel.add(name);panel.add(contact);panel.add(id);panel.add(nameLbl);panel.add(contactLbl);panel.add(idLbl);panel.add(add);panel.add(back);
+		panel.add(error);frame.add(panel);
+		frame.setSize(400,400);
+		frame.setVisible(true);
 	}
 }

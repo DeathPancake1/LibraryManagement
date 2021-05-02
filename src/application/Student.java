@@ -1,22 +1,18 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Student {
 	public int id;
 	public int studentId;
-	String name, contact;
-	public Book issuedBook;
-	Date dateIssued;
-	public Student(int id,String name,String contact, Book issuedBook){
-		this.id=id;
+	public String name;
+	public String contact;
+	public ArrayList <Book> issuedBooks=new ArrayList<Book>();
+	public ArrayList <Date> issuedBooksDates = new ArrayList<Date>();
+	public Student(int studentid,String name,String contact){
+		this.studentId=studentid;
 		this.name=name;
 		this.contact=contact;
-		this.issuedBook=issuedBook;
-		dateIssued = new Date();
-	}
-	public Object[] toArray() {
-		Object[] array=new Object[] {id,issuedBook.callNum,studentId,name,contact,dateIssued};
-		return array;
 	}
 }

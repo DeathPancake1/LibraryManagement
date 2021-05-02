@@ -229,9 +229,9 @@ public class LibrarianUI {
 				}
 				if(!(callNum.getText().equals("")||studentId.getText().equals("")||studentName.getText().equals("")||studentContact.getText().equals(""))&&success) {
 					application.Book issuedBook= me.checkBook(callNum.getText());
-					if(issuedBook!=null) {
-						application.Student entry = new application.Student(Integer.parseInt(studentId.getText()),studentName.getText(),studentContact.getText(),issuedBook);
-		           		if(me.issueBook(entry)) {
+					application.Student student = me.checkStudent(studentId.getText());
+					if(issuedBook!=null&&student!=null) {
+		           		if(me.issueBook(student,issuedBook)) {
 		           			JOptionPane.showMessageDialog(frame, "Book Issued Successfully");
 			           		frame.setVisible(false);
 			            	frame.dispose();
@@ -240,13 +240,13 @@ public class LibrarianUI {
 		           		else {
 		           			error.setVisible(true);
 							error.setForeground(Color.red);
-							error.setText("The Book is sold out");
+							error.setText("The Book is sold out or the student reached his limit");
 		           		}
 					}
 					else {
 						error.setVisible(true);
 						error.setForeground(Color.red);
-						error.setText("No Book with that call number");
+						error.setText("There is a problem");
 					}
 				}
 				else {
@@ -292,14 +292,14 @@ public class LibrarianUI {
 		callNumLbl.setBounds(40,50,150,30);
 		JTextField callNum=new JTextField();
 		callNum.setBounds(150,50,150,30);
-		JLabel idLbl=new JLabel("ID");
+		JLabel idLbl=new JLabel("Student ID");
 		idLbl.setBounds(40,100,150,30);
 		JTextField id = new JTextField();
 		id.setBounds(150,100,150,30);
 		JLabel error = new JLabel("Insert correct information");
 		error.setBounds(300,200,150,30);
 		error.setVisible(false);
-		JButton add = new JButton("Issue Book");
+		JButton add = new JButton("Return Book");
 		add.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				boolean success;
@@ -311,13 +311,18 @@ public class LibrarianUI {
 					success=false;
 				}
 				if(!(callNum.getText().equals("")||id.getText().equals(""))&&success) {
-					application.Student returnedBook= me.checkIssuedBook(callNum.getText(),Integer.parseInt(id.getText()));
-					if(returnedBook!=null) {
-						me.returnBook(returnedBook);
-						JOptionPane.showMessageDialog(frame, "Book returned Successfully");
-		           		frame.setVisible(false);
-		            	frame.dispose();
-		           		librarianSection();	
+					application.Book book = me.checkBook(callNum.getText());
+					application.Student student= me.checkStudent(id.getText());
+					if(book!=null&&student!=null) {
+						if(me.returnBook(student,book)) {
+							JOptionPane.showMessageDialog(frame, "Book returned Successfully");
+			           		frame.setVisible(false);
+			            	frame.dispose();
+			           		librarianSection();	
+						}
+						else {
+							JOptionPane.showMessageDialog(frame, "Student didn't borrow book");
+						}
 					}
 					else {
 						error.setVisible(true);

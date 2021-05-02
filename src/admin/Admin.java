@@ -6,12 +6,17 @@ import librarian.Librarian;
 
 public class Admin {
 	static ArrayList <Librarian> librarians = new ArrayList <Librarian>(0);
+	public static ArrayList <application.Student> students = new ArrayList <application.Student>(0);
 	static final String password = "password";
 	static final String username="admin"; 
 	
-	static void add(Librarian newEntry) {
+	static void addLib(Librarian newEntry) {
 		librarians.add(newEntry);
 		newEntry.id=librarians.indexOf(newEntry);
+	}
+	static void addStudent(application.Student newEntry) {
+		students.add(newEntry);
+		newEntry.id=students.indexOf(newEntry);
 	}
 	static Object[][] view() {
 		Object[][] libTable = new Object[librarians.size()][7];
