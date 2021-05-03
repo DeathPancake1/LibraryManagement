@@ -1,14 +1,22 @@
 package librarian;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import admin.Admin;
 
 public class Librarian {
-	private static ArrayList<application.Book> bookList=new ArrayList<application.Book>();
+	public static ArrayList<application.Book> bookList=new ArrayList<application.Book>();
+	public static ArrayList<application.Book> issuedBooks=new ArrayList<application.Book>();
 	public int id;
-	private String username, pass,email,address,city,contactNum;
+	private String username, pass;
+	public String email;
+	public String address;
+	public String city;
+	public String contactNum;
 	public Librarian(String username,String pass,String email,String address,String city,String contactNum) {
 		this.username=username;
 		this.pass=pass;
@@ -19,9 +27,11 @@ public class Librarian {
 	}
 	void addBook(application.Book newEntry) {
 		bookList.add(newEntry);
+		newEntry.id=bookList.indexOf(newEntry);
+		application.Files.saveBooks();
 	}
 	Object[][] viewBooks() {
-		Object[][] bookTable = new Object[bookList.size()][5];
+		Object[][] bookTable = new Object[bookList.size()][6];
 		for(int i=0;i<bookList.size();i++) {
 			bookTable[i]=bookList.get(i).toArray();
 		}
@@ -29,37 +39,35 @@ public class Librarian {
 	}
 	boolean issueBook(application.Student student,application.Book book) {
 		if(bookList.get(bookList.indexOf(book)).quantity>0&&student.issuedBooks.size()<3) {
-			Date date = new Date();
 			student.issuedBooks.add(book);
-			student.issuedBooksDates.add(date);
+			issuedBooks.add(book);
+			book.id=issuedBooks.indexOf(book);
+			book.student=student;
+			Date date = Calendar.getInstance().getTime();  
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
+            String strDate = dateFormat.format(date);  
+			book.date=strDate;
 			book.quantity--;
+			application.Files.saveBooks();
+			application.Files.saveIssuedBooks();
 			return true;
 		}
 		return false;
 	}
 	Object[][] viewIssuedBooks(){
-		int k=0;
-		for(int i=0;i<Admin.students.size();i++) {
-			for(int j=0;j<Admin.students.get(i).issuedBooks.size();j++) {
-				k++;
-			}
-		}
-		Object[][] issuedBookTable = new Object[k][6];
-		k=0;
-		for(int i=0;i<Admin.students.size();i++) {
-			for(int j=0;j<Admin.students.get(i).issuedBooks.size();j++) {
-				Object[] temp = new Object[]{Admin.students.get(i).id,Admin.students.get(i).issuedBooks.get(j).callNum,Admin.students.get(i).studentId,Admin.students.get(i).name,Admin.students.get(i).contact,Admin.students.get(i).issuedBooksDates.get(j)};
-				issuedBookTable[k]=temp;
-				k++;
-			}
+		Object[][] issuedBookTable = new Object[issuedBooks.size()][6];
+		for(int i=0;i<issuedBooks.size();i++) {
+			issuedBookTable[i]=issuedBooks.get(i).issuedBookToArray();
 		}
 		return issuedBookTable;
 	}
 	boolean returnBook(application.Student student,application.Book returnedBook) {
 		for(int i=0;i<student.issuedBooks.size();i++) {
-			if(student.issuedBooks.get(i).equals(returnedBook)) {
-				student.issuedBooks.remove(i);
-				student.issuedBooksDates.remove(i);
+			if(student.issuedBooks.get(i).callNum.equals(returnedBook.callNum)) {
+				issuedBooks.get(i).quantity++;
+				issuedBooks.remove(i);
+				application.Files.saveBooks();
+				application.Files.saveIssuedBooks();
 				return true;
 			}
 		}
@@ -75,7 +83,7 @@ public class Librarian {
 		Object[] objArr= new Object[] {id,username,pass,email,address,city,contactNum};
 		return objArr;
 	}
-	public application.Book checkBook(String callNum) {
+	public static application.Book checkBook(String callNum) {
 		for(int i=0;i<bookList.size();i++) {
 			if(bookList.get(i).callNum.equals(callNum)) {
 				return bookList.get(i);
@@ -87,14 +95,6 @@ public class Librarian {
 		for(int i=0;i<Admin.students.size();i++) {
 			if(Integer.parseInt(studentId)==Admin.students.get(i).studentId) {
 				return Admin.students.get(i);
-			}
-		}
-		return null;
-	}
-	public Object checkIssuedBook(application.Student student, application.Book book){
-		for(int i=0;i<student.issuedBooks.size();i++) {
-			if(student.issuedBooks.get(i).equals(book)) {
-				return student.issuedBooks.get(i);
 			}
 		}
 		return null;

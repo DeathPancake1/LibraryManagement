@@ -30,7 +30,7 @@ public class LibrarianUI {
 		incorrect.setVisible(false);
 		login.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
-				me=admin.Admin.checkUser(user.getText(), pass.getText());
+				me=admin.Admin.checkLibrarian(user.getText(), pass.getText());
 			        if(me !=null) {
 			        	frame.setVisible(false);
 			        	frame.dispose();
@@ -182,7 +182,7 @@ public class LibrarianUI {
 	private static void viewBook() {
 		JFrame frame=new JFrame();
 		String [] columns = new String[] {
-			"call No", "Name", "Author", "Publisher" , "Quantity" 
+			"id","call No", "Name", "Author", "Publisher" , "Quantity" 
 		};
 		JTable table = new JTable(me.viewBooks(),columns);
 		frame.add(new JScrollPane(table));
@@ -274,7 +274,7 @@ public class LibrarianUI {
 	private static void viewIssuedBooks() {
 		JFrame frame=new JFrame();
 		String [] columns = new String[] {
-			"id", "Book Call No", "Student ID", "Student Name" , "Student Contact", "Issue Date" 
+			 "id","Book Call No", "Student ID", "Student Name" , "Student Contact", "Issue Date" 
 		};
 		JTable table = new JTable(me.viewIssuedBooks(),columns);
 		frame.add(new JScrollPane(table));

@@ -211,7 +211,15 @@ public class AdminUI {
 		frame.setVisible(true);
 		confirm.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
-           		if(Admin.delete(Integer.parseInt(id.getText()))) {
+				boolean success;
+				try {
+					Integer.parseInt(id.getText());
+					success=true;
+				}
+				catch(Exception e1){
+					success=false;
+				}
+           		if(success&&Admin.delete(Integer.parseInt(id.getText()))) {
            			JOptionPane.showMessageDialog(frame, "Librarian Deleted Successfully");
            			frame.setVisible(false);
                 	frame.dispose();
@@ -239,19 +247,23 @@ public class AdminUI {
 		JLabel title=new JLabel("Add Student");
 		title.setBounds(175,0,150,30);
 		JLabel idLbl=new JLabel("Student ID");
-		idLbl.setBounds(60,50,150,30);
+		idLbl.setBounds(30,50,150,30);
 		JTextField id=new JTextField();
 		id.setBounds(150,50,150,30);
 		JLabel nameLbl=new JLabel("Student Name");
-		nameLbl.setBounds(60,100,150,30);
+		nameLbl.setBounds(30,100,150,30);
 		JTextField name = new JTextField();
 		name.setBounds(150,100,150,30);
 		JLabel contactLbl=new JLabel("Student Contact");
-		contactLbl.setBounds(60,150,150,30);
+		contactLbl.setBounds(30,150,150,30);
 		JTextField contact=new JTextField();
 		contact.setBounds(150,150,150,30);
+		JLabel passLbl=new JLabel("Student Password");
+		passLbl.setBounds(30,200,150,30);
+		JPasswordField pass=new JPasswordField();
+		pass.setBounds(150,200,150,30);
 		JLabel error = new JLabel("Insert correct information");
-		error.setBounds(300,200,150,30);
+		error.setBounds(300,250,150,30);
 		error.setVisible(false);
 		JButton add = new JButton("Add Student");
 		add.addActionListener(new ActionListener(){  
@@ -265,8 +277,8 @@ public class AdminUI {
 				catch(Exception e1){
 					success=false;
 				}
-				if(!(name.getText().equals("")||id.getText().equals("")||contact.getText().equals(""))&&success) {
-					application.Student entry = new application.Student(Integer.parseInt(id.getText()),name.getText(),contact.getText());
+				if(!(name.getText().equals("")||id.getText().equals("")||contact.getText().equals("")||pass.getText().equals(""))&&success) {
+					application.Student entry = new application.Student(Integer.parseInt(id.getText()),name.getText(),contact.getText(),pass.getText());
 	           		Admin.addStudent(entry);
 	           		JOptionPane.showMessageDialog(frame, "Student Added Successfully");
 	           		frame.setVisible(false);
@@ -289,7 +301,7 @@ public class AdminUI {
 		        }  
 		    });
 		back.setBounds(80,300,100,30);
-		panel.add(title);panel.add(name);panel.add(contact);panel.add(id);panel.add(nameLbl);panel.add(contactLbl);panel.add(idLbl);panel.add(add);panel.add(back);
+		panel.add(title);panel.add(name);panel.add(contact);panel.add(id);panel.add(nameLbl);panel.add(contactLbl);panel.add(idLbl);panel.add(add);panel.add(back);panel.add(passLbl);panel.add(pass);
 		panel.add(error);frame.add(panel);
 		frame.setSize(400,400);
 		frame.setVisible(true);

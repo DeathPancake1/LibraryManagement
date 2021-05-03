@@ -14,12 +14,16 @@ import librarian.LibrarianUI;
 public class Library {
 
 	public static void main(String[] args) {
+		Files.readLibrarians();
+		Files.readStudents();
+		Files.readBooks();
+		Files.readIssuedBooks();
 		JFrame frame=new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel panel=new JPanel();
 		panel.setLayout(null);
 		JButton adminLogin=new JButton("Admin Login");
-		adminLogin.setBounds(80,100,150,50);
+		adminLogin.setBounds(80,50,200,70);
 		adminLogin.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 			            frame.setVisible(false);
@@ -35,12 +39,21 @@ public class Library {
 			            LibrarianUI.login();
 			        }  
 			    });
-		librarianLogin.setBounds(80, 200, 150, 50);
+		librarianLogin.setBounds(80, 150, 200, 70);
+		JButton studentLogin=new JButton("Student Login");
+		studentLogin.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+			            frame.setVisible(false);
+			            frame.dispose();
+			            Student.login();
+			        }  
+			    });
+		studentLogin.setBounds(80, 250, 200, 70);
 		JLabel title=new JLabel("Library Management");
-		title.setBounds(90, 0, 150, 50);
-		panel.add(title);panel.add(adminLogin);panel.add(librarianLogin);
+		title.setBounds(125, 0, 150, 50);
+		panel.add(title);panel.add(adminLogin);panel.add(librarianLogin);panel.add(studentLogin);
 		frame.add(panel);
-		frame.setSize(300,300);
+		frame.setSize(400,380);
 		frame.setVisible(true);
 	}
 
