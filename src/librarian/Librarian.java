@@ -62,8 +62,14 @@ public class Librarian {
 		return issuedBookTable;
 	}
 	boolean returnBook(application.Student student,application.Book returnedBook) {
+		boolean flag=false;
+		for(int i=0;i<issuedBooks.size();i++) {
+			if(issuedBooks.get(i).callNum.equals(returnedBook.callNum)&&issuedBooks.get(i).student.studentId==student.studentId) {
+				flag=true;
+			}
+		}
 		for(int i=0;i<student.issuedBooks.size();i++) {
-			if(student.issuedBooks.get(i).callNum.equals(returnedBook.callNum)) {
+			if(student.issuedBooks.get(i).callNum.equals(returnedBook.callNum)&&flag) {
 				issuedBooks.get(i).quantity++;
 				issuedBooks.remove(i);
 				application.Files.saveBooks();

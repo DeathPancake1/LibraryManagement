@@ -213,7 +213,7 @@ public class LibrarianUI {
 		JTextField studentContact=new JTextField();
 		studentContact.setBounds(150,200,150,30);
 		JLabel error = new JLabel("Insert correct information");
-		error.setBounds(300,400,150,30);
+		error.setBounds(180,300,250,30);
 		error.setVisible(false);
 		JButton add = new JButton("Issue Book");
 		add.addActionListener(new ActionListener(){  
@@ -263,12 +263,12 @@ public class LibrarianUI {
            		librarianSection();
 		        }  
 		    });
-		back.setBounds(80,400,100,30);
-		add.setBounds(150,350,130,30);
+		back.setBounds(80,250,100,30);
+		add.setBounds(210,250,130,30);
 		panel.add(add);panel.add(error);panel.add(studentContact);panel.add(studentContactLbl);panel.add(studentName);panel.add(studentNameLbl);panel.add(studentId);panel.add(studentIdLbl);
 		panel.add(callNum);panel.add(callNumLbl);panel.add(title);panel.add(back);
 		frame.add(panel);
-		frame.setSize(500,500);
+		frame.setSize(500,400);
 		frame.setVisible(true);
 	}
 	private static void viewIssuedBooks() {
@@ -348,7 +348,7 @@ public class LibrarianUI {
 		add.setBounds(150,150,130,30);
 		panel.add(add);panel.add(error);panel.add(id);panel.add(idLbl);panel.add(callNum);panel.add(callNumLbl);panel.add(title);panel.add(back);
 		frame.add(panel);
-		frame.setSize(500,500);
+		frame.setSize(500,300);
 		frame.setVisible(true);
 	}
 }

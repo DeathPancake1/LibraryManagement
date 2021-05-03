@@ -203,7 +203,7 @@ public class AdminUI {
 		JButton back = new JButton("Back");
 		back.setBounds(200, 160, 90, 40);
 		JLabel error = new JLabel("Check id properly");
-		error.setBounds(50, 160, 90, 40);
+		error.setBounds(50, 160, 150, 40);
 		error.setVisible(false);
 		panel.add(title);panel.add(idLbl);panel.add(id);panel.add(confirm);panel.add(back);panel.add(error);
 		frame.add(panel);
