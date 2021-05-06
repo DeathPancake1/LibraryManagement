@@ -314,8 +314,15 @@ public class LibrarianUI {
 					application.Book book = me.checkBook(callNum.getText());
 					application.Student student= me.checkStudent(id.getText());
 					if(book!=null&&student!=null) {
-						if(me.returnBook(student,book)) {
+						int x=me.returnBook(student,book);
+						if(x==1) {
 							JOptionPane.showMessageDialog(frame, "Book returned Successfully");
+			           		frame.setVisible(false);
+			            	frame.dispose();
+			           		librarianSection();	
+						}
+						else if(x==2) {
+							JOptionPane.showMessageDialog(frame, "Student Got Penalty");
 			           		frame.setVisible(false);
 			            	frame.dispose();
 			           		librarianSection();	

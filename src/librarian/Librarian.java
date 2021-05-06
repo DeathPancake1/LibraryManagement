@@ -44,7 +44,7 @@ public class Librarian {
 			book.id=issuedBooks.indexOf(book);
 			book.student=student;
 			Date date = Calendar.getInstance().getTime();  
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
             String strDate = dateFormat.format(date);  
 			book.date=strDate;
 			book.quantity--;
@@ -61,7 +61,8 @@ public class Librarian {
 		}
 		return issuedBookTable;
 	}
-	boolean returnBook(application.Student student,application.Book returnedBook) {
+	int returnBook(application.Student student,application.Book returnedBook) {
+		int x=1;
 		boolean flag=false;
 		for(int i=0;i<issuedBooks.size();i++) {
 			if(issuedBooks.get(i).callNum.equals(returnedBook.callNum)&&issuedBooks.get(i).student.studentId==student.studentId) {
@@ -71,13 +72,19 @@ public class Librarian {
 		for(int i=0;i<student.issuedBooks.size();i++) {
 			if(student.issuedBooks.get(i).callNum.equals(returnedBook.callNum)&&flag) {
 				issuedBooks.get(i).quantity++;
+				Date date = Calendar.getInstance().getTime();  
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+	            String strDate = dateFormat.format(date); 
+	            if(!strDate.equals(issuedBooks.get(i).date)) {
+	            	x=2;
+	            }
 				issuedBooks.remove(i);
 				application.Files.saveBooks();
 				application.Files.saveIssuedBooks();
-				return true;
+				return x;
 			}
 		}
-		return false;
+		return 0;
 	}
 	public String getUsername() {
 		return username;
