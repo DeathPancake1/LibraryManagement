@@ -2,6 +2,7 @@ package application;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Files;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,10 +15,10 @@ import librarian.LibrarianUI;
 public class Library {
 
 	public static void main(String[] args) {
-		Files.readLibrarians();
-		Files.readStudents();
-		Files.readBooks();
-		Files.readIssuedBooks();
+		application.Files.readLibrarians();
+		application.Files.readStudents();
+		application.Files.readBooks();
+		application.Files.readIssuedBooks();
 		JFrame frame=new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel panel=new JPanel();
